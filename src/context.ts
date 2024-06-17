@@ -160,9 +160,10 @@ async function getBuildArgs(inputs: Inputs, context: string, toolkit: Toolkit): 
   await Util.asyncForEach(inputs.labels, async label => {
     args.push('--label', label);
   });
-  await Util.asyncForEach(inputs['no-cache-filters'], async noCacheFilter => {
-    args.push('--no-cache-filter', noCacheFilter);
-  });
+  if (inputs['no-cache-filters'].length > 0) {
+    const noCacheFilters = inputs['no-cache-filters'].join(',');
+    args.push('--no-cache-filter', noCacheFilters);
+  }
   await Util.asyncForEach(inputs.outputs, async output => {
     args.push('--output', output);
   });
